@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: f9bcd4243da9f6749ac5b026f35bb694
-timeCreated: 1444813898
+guid: 13c9dde4e14068a40a4b28da80dca154
+timeCreated: 1444817369
 licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Object002
-    400000: //RootNode
-    400002: Object002
-    2300000: Object002
-    3300000: Object002
-    4300000: Object002
+    100000: Box003
+    100002: //RootNode
+    400000: Box003
+    400002: //RootNode
+    2300000: Box003
+    3300000: Box003
+    4300000: Box003
   materials:
     importMaterials: 1
     materialName: 0
@@ -53,7 +53,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
