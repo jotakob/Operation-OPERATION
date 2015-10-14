@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 13.10.2015 12:58:49
+# File Created: 14.10.2015 11:22:58
 
-newmtl _ContainerBackwire_008061138
+newmtl _ContainerBack_ContainerBackwire_008061138
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
