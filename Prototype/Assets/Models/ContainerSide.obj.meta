@@ -1,17 +1,17 @@
 fileFormatVersion: 2
 guid: f9bcd4243da9f6749ac5b026f35bb694
-timeCreated: 1444813898
+timeCreated: 1444822019
 licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Object002
+    100002: default
     400000: //RootNode
-    400002: Object002
-    2300000: Object002
-    3300000: Object002
-    4300000: Object002
+    400002: default
+    2300000: default
+    3300000: default
+    4300000: default
   materials:
     importMaterials: 1
     materialName: 0
@@ -53,7 +53,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
