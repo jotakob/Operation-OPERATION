@@ -1,0 +1,110 @@
+//!MAPINFO@DESC@
+//!MAPINFO@EDIT3DMODEL@resource:\IDMODEL_EDIT3D_TEAPOT
+//!MAPINFO@EDIT3DSHADER@default*0*float1?g_fCoefSpec?256*float4?g_fDiffuse?1 1 1 1*float1?g_fEmissiveMult?1*float4?g_fLightColor?1 1 1 1*float1?g_fParallaxMult?0.005*float4?g_fSpecular?1 1 1 1*sampler?g_DiffuseTex?PFS_9*
+//!MAPINFO@FOLDER@New
+//!MAPINFO@NAME@sand
+//!MAPINFO@OUTPUT@0
+//!MAPINFO@READONLY@FALSE
+//!MAPINFO@TIMESPENT@920
+//!MAPINFO@END@Header End. 
+\version 2.6.1;
+\externmap ExtMap { file "fx_map_presets_set_1.map"; id "BnW_Spots"; UIpos -417 85; }
+\externmap ExtMap_1 { file "fx_map_presets_set_1.map"; id "Clouds"; UIpos -132 78; }
+\externmap ExtMap_2 { file "fx_map_presets_set_1.map"; id "Dirt_2"; UIpos -314 88; }
+\externmap ExtMap_3 { file "fx_map_presets_set_1.map"; id "Gauss_Spots"; UIpos 198 78; }
+\externmap ExtMap_4 { file "fx_map_presets_set_1.map"; id "White_Spots_Noise"; UIpos 425 67; }
+\mepfma FX2Map { mepfma1 PFS_9; 	UIpos 617 239;
+}
+
+\mema __Black_Map__ { mema7 0; mema17 0; mema18 1; }
+
+\NormalMap PFS_24 { Intensity 0.4; 	ratio 4;
+}
+
+\mecmz PFS_6 { mecz1 0; mecz2aa I 0 1 V 0 186 185 102 140 ;
+mecz2aa I 0 0 V 0 119 94 24 17 ;
+	mecmz1 0;
+ } 
+\Emboss PFS_9 { Intensity 0.037037;  Theta 0.249908; 	ratio 4;
+}
+
+\mecmz PFS_2 { mecz1 0; mecz2aa I 0 1 V 0 255 253 180 35 ;
+mecz2aa I 0 0 V 0 0 0 0 42 ;
+	mecmz1 0;
+ } 
+\mecmz PFS_8 { mecz1 0; mecz2aa I 0 1 V 0 173 161 54 14 ;
+mecz2aa I 0 0 V 0 172 162 85 56 ;
+	mecmz1 0;
+ } 
+\mecz PFS_1 { mecz1 0; mecz2aa I 0 0.743948 V 0 223 214 148 255 ;
+mecz2aa I 0 1 V 0 246 239 158 255 ;
+mecz2aa I 0 0 V 0 115 90 9 255 ;
+ } 
+\mecmz PFS_14 { mecz1 0; mecz2aa I 0 0.661487 V 0 235 228 154 182 ;
+mecz2aa I 0 1 V 0 255 255 255 255 ;
+mecz2aa I 0 0 V 0 0 0 0 17 ;
+	mecmz1 0;
+ } 
+\Blank __Black_Node__ {}
+
+\Emboss PFS_7 { Intensity 0.01001;  Theta 0.249908; 	ratio 4;
+}
+
+\Emboss PFS_4 { Intensity 0.0940941;  Theta 0.249908; 	ratio 4;
+}
+
+\Wrap2 PFS_3 { Intensity 0.151151; 	ratio 16;
+}
+
+\Emboss PFS_5 { Intensity 0.01;  Theta 0.249908; 	ratio 4;
+}
+
+\PFStack {
+	OutputNodeRecord 0 0 "normal" 789 235;
+	OutputNodeRecord 1 2 "diffuse" 779 149;
+	Map 0 FX2Map;
+	UIpos 0 695 236;
+	absSize 0 1024 1024;
+	Map 1 ExtMap_3;
+	Link 1 11;
+	UIpos 1 222 167;
+	absSize 1 1024 1024;
+	Map 2 ExtMap_4;
+	Link 2 4;
+	UIpos 2 540 176;
+	absSize 2 1024 1024;
+	Map 3 ExtMap_1;
+	Link 3 9;
+	UIpos 3 -127 163;
+	absSize 3 1024 1024;
+	Map 4 ExtMap_4;
+	Link 4 8;
+	UIpos 4 424 170;
+	absSize 4 1024 1024;
+	Map 5 ExtMap;
+	UIpos 5 -422 166;
+	absSize 5 1024 1024;
+	Map 6 ExtMap_2;
+	Link 6 5;
+	UIpos 6 -324 167;
+	absSize 6 1024 1024;
+	absSize 7 256 256;
+	Map 8 ExtMap_3;
+	Link 8 1;
+	UIpos 8 321 169;
+	absSize 8 1024 1024;
+	transform 8 -1 8 0 0 8 0 0;
+	Map 9 ExtMap_2;
+	Link 9 6;
+	UIpos 9 -230 168;
+	absSize 9 1024 1024;
+	Map 10 ExtMap_1;
+	Link 10 3;
+	UIpos 10 -14 169;
+	absSize 10 1024 1024;
+	Map 11 ExtMap_1;
+	Link 11 10;
+	UIpos 11 104 168;
+	absSize 11 1024 1024;
+}
+
