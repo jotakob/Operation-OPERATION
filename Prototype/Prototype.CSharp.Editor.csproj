@@ -111,38 +111,24 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="LeapCSharp.NET3.5">
+      <HintPath>Assets\Plugins\LeapCSharp.NET3.5.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Prototype.CSharp.Plugins.csproj">
       <Project>{A6BC1859-15DE-74BC-81F2-7DEC548DE22E}</Project>
       <Name>Prototype.CSharp.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="Prototype.CSharp.csproj">
+      <Project>{98FFAEE0-986A-28C1-BC87-B11C874D42F6}</Project>
+      <Name>Prototype.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +147,39 @@
     <Compile Include="Assets\Editor\ImageEffects\SunShaftsEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\AdvancedMode.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\HandControllerEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapImageBasedMaterialEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
+    <Compile Include="Assets\LeapMotionVR\Scripts\ConfigurationManager\Editor\HMRConfigurationManagerEditor.cs" />
+    <Compile Include="Assets\LeapMotionVR\Scripts\Editor\LeapCameraAlignmentEditor.cs" />
+    <Compile Include="Assets\OVR\Editor\OVRBuild.cs" />
+    <Compile Include="Assets\OVR\Moonlight\Editor\OVRMoonlightLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\LeapMotion\DemoResources\ScrollerText.txt" />
+    <None Include="Assets\LeapMotion\Dependencies.txt" />
+    <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-Basic.shader" />
+    <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-BasicOutline.shader" />
+    <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-Lighted.shader" />
+    <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-LightedOutline.shader" />
+    <None Include="Assets\LeapMotion\README_BEFORE_UPDATING.txt" />
+    <None Include="Assets\LeapMotion\Resources\ImageHandHighlight.shader" />
+    <None Include="Assets\LeapMotion\Resources\LeapCG.cginc" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughBackground.shader" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughForeground.shader" />
+    <None Include="Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
+    <None Include="Assets\LeapMotion\Shaders\RimShading.shader" />
+    <None Include="Assets\LeapMotion\Version.txt" />
+    <None Include="Assets\LeapMotion\Widgets\Shaders\SelfIllumAlpha.shader" />
+    <None Include="Assets\LeapMotion\readme.txt" />
+    <None Include="Assets\OVR\Moonlight\Resources\Unlit Transparent Color.shader" />
+    <None Include="Assets\OVR\Moonlight\Shaders\OVRColorRampAlpha.shader" />
+    <None Include="Assets\OVR\Moonlight\Shaders\Unlit Crosshair.shader" />
+    <None Include="Assets\Plugins\Android\assets\donotdelete.txt" />
+    <None Include="Assets\Plugins\donotdelete.txt" />
+    <None Include="Assets\Plugins\x86\donotdelete.txt" />
+    <None Include="Assets\Plugins\x86_64\donotdelete.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
