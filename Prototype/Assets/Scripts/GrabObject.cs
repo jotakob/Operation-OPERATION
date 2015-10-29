@@ -35,6 +35,9 @@ public class GrabObject : MonoBehaviour {
 			isTouching = false;
 			Debug.Log("Set Down 1");
 			gameObject.transform.position = setDownPosition1;
+			Quaternion setDownRotation1 = setDown1.transform.rotation;
+			gameObject.transform.rotation = setDownRotation1;
+			gameObject.isStatic = true;
 		}
 
 		Vector3 setDownPosition2 = setDown2.transform.position;
@@ -42,7 +45,9 @@ public class GrabObject : MonoBehaviour {
 			isTouching = false;
 			Debug.Log ("Set Down 2");
 			gameObject.transform.position = setDownPosition2;
-			
+			Quaternion setDownRotation2 = setDown2.transform.rotation;
+			gameObject.transform.rotation = setDownRotation2;
+			gameObject.isStatic = true;
 		}
 		
 	}
@@ -52,7 +57,7 @@ public class GrabObject : MonoBehaviour {
 		Frame frame = handCtrl.GetFrame();
 		Hand hand = frame.Hands.Frontmost;
 
-		if (hand.IsValid && isTouching) 
+		if (hand.IsValid && isTouching && gameObject.isStatic != true) 
 		{
 			Vector3 position = handCtrl.transform.TransformPoint(hand.PalmPosition.ToUnityScaled());
 			gameObject.transform.position = position;
