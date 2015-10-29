@@ -5,10 +5,10 @@ using Leap;
 public class GrabObject : MonoBehaviour {
 
 	public bool isTouching;
-	public GameObject imageHand;
 	public GameObject touchingThis;
 	public HandController handCtrl;
-	public Vector3 setDownPosition;
+	public GameObject setDown1;
+	public GameObject setDown2;
 
 	void Start()
 	{
@@ -30,10 +30,19 @@ public class GrabObject : MonoBehaviour {
 			Debug.Log ("Hand Touch");
 		}
 
-		if (other.tag == "SetDown") {
+		Vector3 setDownPosition1 = setDown1.transform.position;
+		if (other.tag == "SetDown1") {
 			isTouching = false;
-			Debug.Log("Set Down");
-			gameObject.transform.position = setDownPosition;
+			Debug.Log("Set Down 1");
+			gameObject.transform.position = setDownPosition1;
+		}
+
+		Vector3 setDownPosition2 = setDown2.transform.position;
+		if (other.tag == "SetDown2") {
+			isTouching = false;
+			Debug.Log ("Set Down 2");
+			gameObject.transform.position = setDownPosition2;
+			
 		}
 		
 	}
