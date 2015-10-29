@@ -198,7 +198,6 @@
     <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRDisplay.cs" />
-    <Compile Include="Assets\OVR\Scripts\OVRInput.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRManager.cs" />
     <Compile Include="Assets\OVR\Scripts\OVROnCompleteListener.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRPlugin.cs" />
@@ -211,6 +210,8 @@
     <Compile Include="Assets\OVR\Scripts\Util\OVRSceneSampleController.cs" />
     <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
     <Compile Include="Assets\OVR\Scripts\Util\OVRTrackerBounds.cs" />
+    <Compile Include="Assets\Scripts\GrabObject.cs" />
+    <Compile Include="Assets\Scripts\SetDown.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LeapMotion\DemoResources\ScrollerText.txt" />

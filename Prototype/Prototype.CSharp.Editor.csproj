@@ -153,7 +153,6 @@
     <Compile Include="Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
     <Compile Include="Assets\LeapMotionVR\Scripts\ConfigurationManager\Editor\HMRConfigurationManagerEditor.cs" />
     <Compile Include="Assets\LeapMotionVR\Scripts\Editor\LeapCameraAlignmentEditor.cs" />
-    <Compile Include="Assets\OVR\Editor\OVRBuild.cs" />
     <Compile Include="Assets\OVR\Moonlight\Editor\OVRMoonlightLoader.cs" />
   </ItemGroup>
   <ItemGroup>
