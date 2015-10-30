@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GrabObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CPRTriggerEvent.cs">
     <Files>
-      <File FileName="Assets\AnimateLight.cs" Line="18" Column="5" />
-      <File FileName="Assets\Scripts\GrabObject.cs" Line="64" Column="90" />
+      <File FileName="Assets\Scripts\CPRTriggerEvent.cs" Line="67" Column="6" />
+      <File FileName="Assets\AnimateLight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GrabObject.cs" Line="20" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
