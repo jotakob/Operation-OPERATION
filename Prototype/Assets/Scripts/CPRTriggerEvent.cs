@@ -7,7 +7,7 @@ public class CPRTriggerEvent : MonoBehaviour {
 	public GameObject CPRHands;
 	public HandController handController;
 
-	bool touchingTrigger;
+	public bool touchingTrigger;
 	bool handIsValid;
 
 	Frame frame;
@@ -25,13 +25,15 @@ public class CPRTriggerEvent : MonoBehaviour {
 		hand = frame.Hands.Frontmost;
 
 
-		if (hand.IsValid ) {
-			CPRHands.SetActive(false);
-		}
-		else if (!hand.IsValid && touchingTrigger){
-			CPRHands.SetActive(true);
-		}
-
+//		if (hand.IsValid) {
+//			CPRHands.SetActive(false);
+//		}
+//		if (!touchingTrigger) {
+//			CPRHands.SetActive(false);
+//		}
+//		if (!hand.IsValid && touchingTrigger){
+//			CPRHands.SetActive(true);
+//		}
 
 //		if (hand.IsValid) {
 //			handIsValid = true;
@@ -39,7 +41,7 @@ public class CPRTriggerEvent : MonoBehaviour {
 //		else if (!hand.IsValid) {
 //			handIsValid = false;
 //		}
-//
+
 //		if (touchingTrigger && !handIsValid) {
 //			CPRHands.SetActive(true);
 //			Debug.Log ("touching and no valid hands");
@@ -48,25 +50,34 @@ public class CPRTriggerEvent : MonoBehaviour {
 //			CPRHands.SetActive(false);
 //			Debug.Log ("no longer touching and valid hands");
 //		}
+
+//		if (!touchingTrigger) {
+//			CPRHands.SetActive(false);
+//		}
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
-		Debug.Log ("Something is touching: " + other.name + " Tag: " + other.tag);
-		if (IsHand(other)) {
+		if (IsHand(other) && !CPRHands.activeInHierarchy) {
 			touchingTrigger = true;
+			CPRHands.SetActive(true);
 			Debug.Log ("Setting touch to true");
+		}
+//		else {
+//			touchingTrigger = false;
+//		}
+	}
+
+	void OnTriggerExit()
+	{
+		if (CPRHands.activeInHierarchy) {
+			Debug.Log ("hands are not touching");
+			touchingTrigger = false;
+			CPRHands.SetActive(false);
 		}
 
 	}
-//
-//	void OnTriggerExit()
-//	{
-//		if (handIsValid) {
-//			touchingTrigger = false;
-//		}
-//	}
-//
+
 	private bool IsHand(Collider other)
 	{
 		if (other.transform.parent && other.transform.parent.parent && other.transform.parent.parent.GetComponent<HandModel>())
