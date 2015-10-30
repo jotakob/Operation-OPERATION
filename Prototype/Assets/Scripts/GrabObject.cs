@@ -5,6 +5,7 @@ using Leap;
 public class GrabObject : MonoBehaviour {
 
 	public bool isTouching;
+	public bool isHolding;
 	public GameObject touchingThis;
 	public HandController handCtrl;
 	public GameObject setDown1;
@@ -13,6 +14,7 @@ public class GrabObject : MonoBehaviour {
 	void Start()
 	{
 		isTouching = false;
+		isHolding = false;
 	}
 
 	private bool IsHand(Collider other)
@@ -57,7 +59,7 @@ public class GrabObject : MonoBehaviour {
 		Frame frame = handCtrl.GetFrame();
 		Hand hand = frame.Hands.Frontmost;
 
-		if (hand.IsValid && isTouching && gameObject.isStatic != true) 
+		if (hand.IsValid && isTouching && !gameObject.isStatic) 
 		{
 			Vector3 position = handCtrl.transform.TransformPoint(hand.PalmPosition.ToUnityScaled());
 			gameObject.transform.position = position;
