@@ -14,19 +14,21 @@ public class CamTest: MonoBehaviour {
 	public int[] redPixelsIndex;
 	public int[] greenPixelsIndex;
 
-	private const int redHeight = 193;
-	private const int redBottom = 98;
+	private const int redHeight = 257;
+	private const int redBottom = 165;
 
-	private const int greenHeight = 88;
-	private const int greenBottom = 16;
+	private const int greenHeight = 117;
+	private const int greenBottom = 46;
 
-	private const int redLeft = 100;
-	private const int redGreenOffset = 85;
+	private const int redLeft = 94;
+	private const int greenLeft = 186;
 
 	private float lastPressure = 0.0f;
 	private bool goingUp = false;
 	private float compStartTime;
 	private List<float> singleCompression = new List<float>();
+
+    private float lastCamFrameTime = 0.0f;
 
 	private Texture2D tooSoft;
 
@@ -36,14 +38,20 @@ public class CamTest: MonoBehaviour {
 
 	int _CaptureCounter = 0;
 
-	void Start() {
+    void Start()
+    {
 
-		devices = WebCamTexture.devices;
-		webcamTexture = new WebCamTexture();
-		webcamTexture.deviceName = devices [0].name;
-		webcamTexture.requestedFPS = 60;
-		webcamTexture.Play();
-	}
+        devices = WebCamTexture.devices;
+        webcamTexture = new WebCamTexture();
+        webcamTexture.Stop();
+        webcamTexture.deviceName = devices[1].name;
+        webcamTexture.requestedWidth = 480;
+        webcamTexture.requestedHeight = 640;
+        webcamTexture.requestedFPS = 90;
+        webcamTexture.Play();
+
+    }
+
 	void Update() {
 
 		if (Input.GetButtonDown("Jump"))
@@ -52,8 +60,18 @@ public class CamTest: MonoBehaviour {
 			TakeSnapshot();
 		}
 
+        /*if (webcamTexture.didUpdateThisFrame)
+        {
+            Debug.Log(Time.time - lastCamFrameTime);
+            lastCamFrameTime = Time.time;
+        }
+        else
+        {
+            Debug.Log("no :/");
+        }*/
+
 		redLevels = webcamTexture.GetPixels (redLeft, redBottom, 1, redHeight);
-		greenLevels = webcamTexture.GetPixels(redLeft + redGreenOffset, greenBottom, 1, greenHeight);
+		greenLevels = webcamTexture.GetPixels(greenLeft, greenBottom, 1, greenHeight);
 		redPixelsIndex = new int[10];
 		greenPixelsIndex = new int[10];
 		int b = 0;
@@ -93,13 +111,18 @@ public class CamTest: MonoBehaviour {
 			pressure = 51;
 		}
 
-		if (pressure >= 51) {
-			//nothing
-		}
-		else {
-			if (lastPressure > pressure && !goingUp){
+		if (pressure < 51)
+        {
+			if (lastPressure > pressure && goingUp){
 				//start new compression and analyze previous one
 				float[] compression = singleCompression.ToArray();
+                string output = "";
+                foreach (float value in compression)
+                {
+                    output += Mathf.Round(value) + ", ";
+                }
+                Debug.Log(output);
+
 				float min = 50;
 				float max = 0;
 				foreach (float i in compression)
@@ -114,12 +137,12 @@ public class CamTest: MonoBehaviour {
 				{
 					singleCompression = new List<float>();
 					compStartTime = Time.realtimeSinceStartup;
-					goingUp = true;
+					goingUp = false;
 					Debug.Log("Last Compression: " + compression.Length);
 				}
 			}
-			else if (lastPressure < pressure && goingUp){
-				goingUp = false;
+			else if (lastPressure < pressure && !goingUp){
+				goingUp = true;
 			}
 			singleCompression.Add(pressure);
 			//Debug.Log("pressure: " + pressure);
