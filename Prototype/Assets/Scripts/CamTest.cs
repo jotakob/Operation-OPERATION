@@ -18,7 +18,7 @@ public class CamTest: MonoBehaviour {
 	public int[] redPixelsIndex;
 	public int[] greenPixelsIndex;
 
-	private const int redHeight = 257;
+	private const int redHeight = 236;
 	private const int redBottom = 165;
 
 	private const int greenHeight = 117;
@@ -40,6 +40,12 @@ public class CamTest: MonoBehaviour {
 
 	public float pressure;
 
+	public GameObject CPRHands;
+	bool handsDown;
+	bool handsUp;
+
+	public HandController handController;
+
 	int _CaptureCounter = 0;
 
     void Start()
@@ -48,15 +54,31 @@ public class CamTest: MonoBehaviour {
         devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture();
         webcamTexture.Stop();
-        webcamTexture.deviceName = devices[0].name;
+		webcamTexture.deviceName = devices [1].name;
         webcamTexture.requestedWidth = 480;
         webcamTexture.requestedHeight = 640;
         webcamTexture.requestedFPS = 90;
         webcamTexture.Play();
 
+		handsDown = false;
+		handsUp = true;
+
     }
 
 	void Update() {
+
+		if (pressure > 3) {
+			CPRHands.SetActive(true);
+			if (!handsDown) {
+				handController.enabled = false;
+				StartCoroutine(animeCPRdownwards());
+			}
+		}
+		else {
+			if (handsDown) {
+				StartCoroutine(animeCPRupwards());
+			}
+		}
 
 		if (Input.GetButtonDown("Jump"))
 		{
@@ -81,7 +103,7 @@ public class CamTest: MonoBehaviour {
 		int b = 0;
 
 		for (int i = 0; i < redLevels.Length; i++) {
-			if (redLevels[i].r > 0.75f * (redLevels[i].g + redLevels[i].b)) {
+			if (redLevels[i].r > 0.7f * (redLevels[i].g + redLevels[i].b)) {
 				redPixelsIndex[b] = i;
 				b++;
 				if (b >=10) {break;}
@@ -92,7 +114,7 @@ public class CamTest: MonoBehaviour {
 		b = 0;
 
 		for (int i = 0; i < greenLevels.Length; i++) {
-			if (greenLevels[i].g > 0.75f * (greenLevels[i].r + greenLevels[i].b)) {
+			if (greenLevels[i].g > 0.7f * (greenLevels[i].r + greenLevels[i].b)) {
 				greenPixelsIndex[b] = i;
 				b++;
 				if (b >=10) {break;}
@@ -112,7 +134,7 @@ public class CamTest: MonoBehaviour {
 			pressure = (1 - redLevel / redLevels.Length) * 37.0f;
 		} 
 		else {
-			pressure = 51;
+			pressure = 0;
 		}
 
 		if (pressure < 51)
@@ -157,7 +179,28 @@ public class CamTest: MonoBehaviour {
 		lastPressure = pressure;
 	}
 
+	IEnumerator animeCPRdownwards()
+	{
+		handsDown = true;
+		handsUp = false;
+		for (int i = 0; i < 11; i++) {
+			CPRHands.transform.Translate(new Vector3(0.0f, -0.007f, 0.0f));
+			yield return new WaitForEndOfFrame();
+		}
+	}
 
+	IEnumerator animeCPRupwards()
+	{
+		handsDown = false;
+		handsUp = true;
+		for (int i = 0; i < 11; i++) {
+			CPRHands.transform.Translate(new Vector3(0.0f, 0.007f, 0.0f));
+			yield return new WaitForEndOfFrame();
+		}
+
+		CPRHands.SetActive (false);
+		handController.enabled = true;
+	}
 
 	void TakeSnapshot()
 	{

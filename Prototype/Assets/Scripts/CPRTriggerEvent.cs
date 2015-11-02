@@ -9,21 +9,30 @@ public class CPRTriggerEvent : MonoBehaviour {
 
 	public bool touchingTrigger;
 	bool handIsValid;
+	float timePassed;
 
 	Frame frame;
 	Hand hand;
 
 	void Start()
 	{
-		touchingTrigger = false;
-		handIsValid = false;
+//		touchingTrigger = false;
+//		handIsValid = false;
+//		timePassed = 0;
 	}
 
 	void Update () {
 
-		frame = handController.GetFrame();
-		hand = frame.Hands.Frontmost;
+//		frame = handController.GetFrame();
+//		hand = frame.Hands.Frontmost;
 
+
+//		if (touchingTrigger) {
+//			CPRHands.SetActive(true);
+//		}
+//		else {
+//			CPRHands.SetActive(false);
+//		}
 
 //		if (hand.IsValid) {
 //			CPRHands.SetActive(false);
@@ -56,33 +65,29 @@ public class CPRTriggerEvent : MonoBehaviour {
 //		}
 	}
 
-	void OnTriggerEnter(Collider other)
-	{
-		if (IsHand(other) && !CPRHands.activeInHierarchy) {
-			touchingTrigger = true;
-			CPRHands.SetActive(true);
-			Debug.Log ("Setting touch to true");
-		}
-//		else {
-//			touchingTrigger = false;
-//		}
-	}
+//	void OnTriggerEnter(Collider other)
+//	{
+//		touchingTrigger = true;		
+//	}
 
-	void OnTriggerExit()
-	{
-		if (CPRHands.activeInHierarchy) {
-			Debug.Log ("hands are not touching");
-			touchingTrigger = false;
-			CPRHands.SetActive(false);
-		}
+//	void OnTriggerStay(Collider other)
+//	{
+//		timePassed = timePassed + Time.deltaTime;
+//
+//		Debug.Log ("Hands are staying in trigger: " + timePassed);
+//	}
 
-	}
+//	void OnTriggerExit()
+//	{
+//		CPRHands.SetActive (false);
+//		timePassed = 0;
+//	}
 
-	private bool IsHand(Collider other)
-	{
-		if (other.transform.parent && other.transform.parent.parent && other.transform.parent.parent.GetComponent<HandModel>())
-			return true;
-		else
-			return false;
-	}
+//	private bool IsHand(Collider other)
+//	{
+//		if (other.transform.parent && other.transform.parent.parent && other.transform.parent.parent.GetComponent<HandModel>())
+//			return true;
+//		else
+//			return false;
+//	}
 }

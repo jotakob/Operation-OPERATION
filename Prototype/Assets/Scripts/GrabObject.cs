@@ -36,13 +36,13 @@ public class GrabObject : MonoBehaviour {
 	{
 		if (IsHand(other) && gameObject.GetComponent<GrabObject>().enabled) {
 			isTouching = true;
-			Debug.Log ("Hand Touch");
+//			Debug.Log ("Hand Touch");
 		}
 
 		Vector3 setDownPosition1 = setDown1.transform.position;
 		if (other.tag == "SetDown1" && !setDownOneOccupied) {
 			isTouching = false;
-			Debug.Log("Set Down 1");
+//			Debug.Log("Set Down 1");
 			gameObject.transform.position = setDownPosition1;
 			Quaternion setDownRotation1 = setDown1.transform.rotation;
 			gameObject.transform.rotation = setDownRotation1;
@@ -55,7 +55,7 @@ public class GrabObject : MonoBehaviour {
 		Vector3 setDownPosition2 = setDown2.transform.position;
 		if (other.tag == "SetDown2" && !setDownTwoOccupied) {
 			isTouching = false;
-			Debug.Log ("Set Down 2");
+//			Debug.Log ("Set Down 2");
 			gameObject.transform.position = setDownPosition2;
 			Quaternion setDownRotation2 = setDown2.transform.rotation;
 			gameObject.transform.rotation = setDownRotation2;
