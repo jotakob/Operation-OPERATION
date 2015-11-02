@@ -4,6 +4,8 @@ using System.Collections;
 public class OpenAED : MonoBehaviour {
     public Animator AEDAnimator;
 
+	public GameObject aed;
+
 	bool open;
 
 	void Start()
@@ -15,6 +17,7 @@ public class OpenAED : MonoBehaviour {
     {
         AEDAnimator.Play("Open");
         open = true;
+		aed.GetComponent<ActivateAED> ().state = 1;
 		yield return null;
     }
 

@@ -9,10 +9,10 @@ public class ActivateAED : MonoBehaviour {
 	public bool placedTwo;
 
     public int state = 0;
-    public float endTime;
-    public bool waited = false;
-    public bool giveShock = true;
-    public bool buttonPressed = false;
+    private float endTime = 0f;
+	private bool waited = false;
+	private bool giveShock = true;
+	private bool buttonPressed = false;
 
 	public GameObject AEDLight;
 
@@ -23,10 +23,13 @@ public class ActivateAED : MonoBehaviour {
 
 	void Update()
 	{
-        if (endTime > Time.time)
+        if (endTime <= Time.time)
         {
             switch (state)
             {
+				case 0:
+					break;
+
                 case 1:
                 case 2:
                 case 3:
@@ -99,18 +102,22 @@ public class ActivateAED : MonoBehaviour {
 
                 case 9:
                     playSound(state);
-                    buttonPressed = false;
-                    state++;
+					state++;
+					buttonPressed = false;
                     break;
 
-                case 10:
+				case 10: 
+					AEDLight.GetComponent<AnimateLight>().enabled = true;
                     playSound(21); //AED shock alert
                     if (buttonPressed)
                     {
                         //Play Shock animation
                         playSound(state);
-                        state++;
-                    }
+						state++;
+						AEDLight.GetComponent<AnimateLight>().enabled = false;
+						AEDLight.GetComponent<Light>().enabled = false;
+						
+					}
                     break;
 
                 case 11:
@@ -133,10 +140,6 @@ public class ActivateAED : MonoBehaviour {
                     break;
             }
         }
-
-		if (placedOne && placedTwo) {
-			AEDLight.GetComponent<AnimateLight>().enabled = true;
-		}
 	}
 
 	void OnTriggerEnter()

@@ -32,7 +32,7 @@ public class CamTest: MonoBehaviour {
 	private float compStartTime;
 	private List<float> singleCompression = new List<float>();
 
-    private float lastCamFrameTime = 0.0f;
+    private float lastAnalysisTime = 0.0f;
 
 	private Texture2D tooSoft;
 
@@ -68,14 +68,14 @@ public class CamTest: MonoBehaviour {
 
 	void Update() {
 
-		if (handsUp || pressure <= 5) {
+		if (handsUp || pressure <= 7) {
 			playerFeedback.text = "Press";
 		}
 		else if (handsDown && pressure >= 50) {
 			playerFeedback.text = "Release";
 		}
 
-		if (pressure > 3) {
+		if (pressure > 5) {
 			CPRHands.SetActive(true);
 			if (!handsDown) {
 				handController.enabled = false;
@@ -111,7 +111,7 @@ public class CamTest: MonoBehaviour {
 		int b = 0;
 
 		for (int i = 0; i < redLevels.Length; i++) {
-			if (redLevels[i].r > 0.7f * (redLevels[i].g + redLevels[i].b)) {
+			if (redLevels[i].r > 0.75f * (redLevels[i].g + redLevels[i].b)) {
 				redPixelsIndex[b] = i;
 				b++;
 				if (b >=10) {break;}
@@ -122,7 +122,7 @@ public class CamTest: MonoBehaviour {
 		b = 0;
 
 		for (int i = 0; i < greenLevels.Length; i++) {
-			if (greenLevels[i].g > 0.7f * (greenLevels[i].r + greenLevels[i].b)) {
+			if (greenLevels[i].g > 0.75f * (greenLevels[i].r + greenLevels[i].b)) {
 				greenPixelsIndex[b] = i;
 				b++;
 				if (b >=10) {break;}
@@ -147,7 +147,7 @@ public class CamTest: MonoBehaviour {
 
 		if (pressure < 51)
         {
-			if (lastPressure > pressure && goingUp){
+			/*if (lastPressure > pressure && goingUp){
 				//start new compression and analyze previous one
 				float[] compression = singleCompression.ToArray();
                 string output = "";
@@ -177,14 +177,18 @@ public class CamTest: MonoBehaviour {
 			}
 			else if (lastPressure < pressure && !goingUp){
 				goingUp = true;
-			}
+			}*/
 			singleCompression.Add(pressure);
 			//Debug.Log("pressure: " + pressure);
 			showPressure.text = "" + Mathf.Round(pressure);
 		}
-		//Debug.Log ("color value: " + redLevels[188]);
 
 		lastPressure = pressure;
+	}
+
+	void analyzeCompression()
+	{
+		Debug.Log ("analyzing compression...");
 	}
 
 	IEnumerator animeCPRdownwards()
