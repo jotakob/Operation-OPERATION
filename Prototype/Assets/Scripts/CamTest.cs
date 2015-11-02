@@ -40,6 +40,7 @@ public class CamTest: MonoBehaviour {
 
 	public float pressure;
 
+	public Text playerFeedback;
 	public GameObject CPRHands;
 	bool handsDown;
 	bool handsUp;
@@ -66,6 +67,13 @@ public class CamTest: MonoBehaviour {
     }
 
 	void Update() {
+
+		if (handsUp || pressure <= 5) {
+			playerFeedback.text = "Press";
+		}
+		else if (handsDown && pressure >= 50) {
+			playerFeedback.text = "Release";
+		}
 
 		if (pressure > 3) {
 			CPRHands.SetActive(true);
