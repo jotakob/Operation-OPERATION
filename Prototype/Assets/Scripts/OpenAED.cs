@@ -5,6 +5,8 @@ public class OpenAED : MonoBehaviour {
     public Animator AEDAnimator;
 
 	public GameObject aed;
+	public GameObject padOne;
+	public GameObject padTwo;
 
 	bool open;
 
@@ -24,6 +26,8 @@ public class OpenAED : MonoBehaviour {
 	void OnTriggerEnter()
 	{
 		if (!open) {
+			padOne.SetActive(true);
+			padTwo.SetActive(true);
 			StartCoroutine(PlayAnimation());
 		}
 	}

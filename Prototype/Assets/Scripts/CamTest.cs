@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using System.Threading;
 
 public class CamTest: MonoBehaviour {
+
+	//private Thread thread = new Thread (new ThreadStart(analyzeCompression));
 
 	public Text showPressure;
 
@@ -32,7 +35,7 @@ public class CamTest: MonoBehaviour {
 	private float compStartTime;
 	private List<float> singleCompression = new List<float>();
 
-    private float lastAnalysisTime = 0.0f;
+    private float nextAnalysisTime = 0.0f;
 
 	private Texture2D tooSoft;
 
@@ -181,6 +184,13 @@ public class CamTest: MonoBehaviour {
 			singleCompression.Add(pressure);
 			//Debug.Log("pressure: " + pressure);
 			showPressure.text = "" + Mathf.Round(pressure);
+		}
+
+		if (Time.time > nextAnalysisTime) 
+		{
+			//Debug.Log("starting thread...");
+			//thread.Start();
+			nextAnalysisTime = Time.time + 1f;
 		}
 
 		lastPressure = pressure;
