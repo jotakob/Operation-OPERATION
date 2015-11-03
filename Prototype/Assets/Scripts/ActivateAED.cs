@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
+using System.Collections.Generic;
 
 public class ActivateAED : MonoBehaviour {
 	public AudioClip beep;
@@ -14,11 +15,23 @@ public class ActivateAED : MonoBehaviour {
 	private bool giveShock = true;
 	private bool buttonPressed = false;
 
+	public Dictionary<int, AudioClip> AEDLines;
+
 	public GameObject AEDLight;
+
+	void Start()
+	{
+		AEDLines = new Dictionary<int, AudioClip> ();
+		for (int i = 1; i < 25; i++) {
+			AudioClip tmp = Resources.Load("AEDLines/Line" + i) as AudioClip;
+			AEDLines.Add(i, tmp);
+		}
+	}
 
     void Awake()
     {
-        giveShock = (Random.value > 0.5);
+        //giveShock = (Random.value > 0.5);
+
     }
 
 	void Update()
@@ -54,7 +67,7 @@ public class ActivateAED : MonoBehaviour {
                         }
                         else
                         {
-                            endTime += 10f;
+                            endTime += 5f;
                             waited = true;
                         }
                     }
@@ -83,7 +96,7 @@ public class ActivateAED : MonoBehaviour {
                         }
                         else
                         {
-                            endTime += 10f;
+                            endTime += 5f;
                             waited = true;
                         }
                     }
@@ -96,43 +109,45 @@ public class ActivateAED : MonoBehaviour {
 
                 case 8:
                     playSound(state);
-                    playSound(20); //AED charge
-                    state++;
+                    //playSound(20); //AED charge
+                    state = 20;
                     break;
+
+				case 20:
+					playSound(state);
+					state = 9;
+					break;
 
                 case 9:
                     playSound(state);
-					state++;
+					state = 21;
 					buttonPressed = false;
+					AEDLight.GetComponent<AnimateLight>().enabled = true;
                     break;
 
-				case 10: 
-					AEDLight.GetComponent<AnimateLight>().enabled = true;
-                    playSound(21); //AED shock alert
+				case 21: 
+                    //playSound(21); //AED shock alert
                     if (buttonPressed)
                     {
+						AEDLight.GetComponent<AnimateLight>().enabled = false;
+						AEDLight.GetComponent<MeshRenderer>().enabled = false;
+						AEDLight.GetComponent<Light>().enabled = false;
                         //Play Shock animation
                         playSound(state);
-						state++;
-						AEDLight.GetComponent<AnimateLight>().enabled = false;
-						AEDLight.GetComponent<Light>().enabled = false;
-						
+						state = 10;
 					}
                     break;
 
+				case 10:
                 case 11:
+				case 12:
                     playSound(state);
                     state++;
-                    break;
-
-                case 12:
-                    playSound(state);
-                    state = 13;
                     break;
 
                 case 13:
                     playSound(state);
-                    state = 6;
+					state = 6;
                     break;
 
                 default:
@@ -145,20 +160,28 @@ public class ActivateAED : MonoBehaviour {
 	void OnTriggerEnter()
 	{
         buttonPressed = true;
-		if (placedOne && placedTwo) {
+		/*if (placedOne && placedTwo) {
 			if (gameObject.GetComponent<AudioSource>().isPlaying) {
 				//nothing
 			}
 			else {
 				gameObject.GetComponent<AudioSource> ().Play ();
 			}
-		}
+		}*/
 	}
 
     void playSound(int ID)
     {
+		gameObject.GetComponent<AudioSource> ().clip = AEDLines [ID];
+		gameObject.GetComponent<AudioSource> ().Play ();
         //stop playing previous sound, play new sound and set endTime
-        Debug.Log("Hi, I am Sound #" + ID);
-        endTime = Time.time + 5f;
+        //Debug.Log("Hi, I am Sound #" + ID);
+		float pause = 0.5f;
+		if (ID == 12) {
+			pause = 30f; //120
+		} else if (ID == 6) {
+			pause = 3f;
+		}
+        endTime = Time.time + AEDLines[ID].length + pause;
     }
 }

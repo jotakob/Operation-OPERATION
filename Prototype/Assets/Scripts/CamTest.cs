@@ -71,17 +71,17 @@ public class CamTest: MonoBehaviour {
 
 	void Update() {
 
-		if (handsUp || pressure <= 7) {
+		if (handsUp || pressure <= 2) {
 			playerFeedback.text = "Press";
 		}
-		else if (handsDown && pressure >= 50) {
+		else if (handsDown && pressure >= 49) {
 			playerFeedback.text = "Release";
 		}
 
-		if (pressure > 5) {
+		if (pressure > 2) {
 			CPRHands.SetActive(true);
+			handController.enabled = false ;
 			if (!handsDown) {
-				handController.enabled = false;
 				StartCoroutine(animeCPRdownwards());
 			}
 		}
@@ -220,8 +220,11 @@ public class CamTest: MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
-		CPRHands.SetActive (false);
-		handController.enabled = true;
+		yield return new WaitForSeconds (0.5f);
+		if (pressure < 3) {
+			CPRHands.SetActive (false);
+			handController.enabled = true;
+		}
 	}
 
 	void TakeSnapshot()

@@ -4,10 +4,11 @@ using System.Collections;
 public class AnimateLight : MonoBehaviour {
 
 	Light aedLight;
-	public GameObject aedLightStrip;
+	GameObject aedLightStrip;
 	
 	void Start () {
 		aedLight = this.GetComponent<Light> ();
+		aedLightStrip = this.gameObject;
 		StartCoroutine (blink ());
 	}
 
@@ -16,11 +17,11 @@ public class AnimateLight : MonoBehaviour {
 		while (true) {
 			if (aedLight.enabled) {
 				aedLight.enabled = false;
-				aedLightStrip.SetActive(false);
+				aedLightStrip.GetComponent<MeshRenderer>().enabled = false;
 			}
 			else {
 				aedLight.enabled = true;
-				aedLightStrip.SetActive(true);
+				aedLightStrip.GetComponent<MeshRenderer>().enabled = true;
 			}
 
 			yield return new WaitForSeconds(0.8f);
