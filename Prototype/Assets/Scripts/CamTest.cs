@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
 
-public class CamTest: MonoBehaviour {
+public class CamTest: MonoBehaviour
+{
 
 	//private Thread thread = new Thread (new ThreadStart(analyzeCompression));
 
@@ -57,8 +58,8 @@ public class CamTest: MonoBehaviour {
 
         devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture();
-        webcamTexture.Stop();
-		webcamTexture.deviceName = devices [1].name;
+        //webcamTexture.Stop();
+		webcamTexture.deviceName = devices [0].name;
         webcamTexture.requestedWidth = 480;
         webcamTexture.requestedHeight = 640;
         webcamTexture.requestedFPS = 90;

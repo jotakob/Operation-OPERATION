@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GrabObject.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ActivateAED.cs">
     <Files>
-      <File FileName="Assets\Scripts\StartScene.cs" Line="44" Column="29" />
-      <File FileName="Assets\Scripts\ActivateAED.cs" Line="134" Column="34" />
-      <File FileName="Assets\Scripts\CamTest.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CamTest.cs" Line="61" Column="11" />
+      <File FileName="Assets\Scripts\StartScene.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ActivateAED.cs" Line="136" Column="7" />
       <File FileName="Assets\Scripts\OpenAED.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GrabObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AnimateLight.cs" Line="26" Column="4" />
+      <File FileName="Assets\Scripts\AnimateLight.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

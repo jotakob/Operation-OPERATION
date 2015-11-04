@@ -36,7 +36,7 @@ public class ActivateAED : MonoBehaviour {
 
 	void Update()
 	{
-        if (endTime <= Time.time)
+		if ((endTime <= Time.time) || ((state == 5) && (placedOne || placedTwo)) || ((state == 6) && (placedOne && placedTwo)))
         {
             switch (state)
             {
