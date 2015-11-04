@@ -7,11 +7,16 @@ ModelImporter:
   fileIDToRecycleName:
     100000: Bed
     100002: //RootNode
+    100004: Box001
     400000: Bed
     400002: //RootNode
+    400004: Box001
     2300000: Bed
+    2300002: Box001
     3300000: Bed
+    3300002: Box001
     4300000: Bed
+    4300002: Box001
   materials:
     importMaterials: 1
     materialName: 0

@@ -64,7 +64,7 @@ public class CamTest: MonoBehaviour
 		handsDown = false;
 		handsUp = true;
 
-        StartCoroutine("analyzeCompression");
+        StartCoroutine(analyzeCompression());
     }
 
 	void Update() {
@@ -220,6 +220,7 @@ public class CamTest: MonoBehaviour
                 if (firstAnalysis)
                 {
                     pressureValues = new List<float[]>();
+					firstAnalysis = false;
                 }
                 else
                 {
@@ -238,9 +239,9 @@ public class CamTest: MonoBehaviour
                     yield return null;
 
                     bool discardedFirst = false;
-                    for (int i = 0; i < singleAnalysis.Count; i++)
+                    for (int i = 1; i < singleAnalysis.Count; i++)
                     {
-                        if ((singleAnalysis[i][0] > avg) && (singleAnalysis[i-1][0] < avg))
+                        if ((singleAnalysis[i][0] > avg) && (singleAnalysis[i-1][0] <= avg))
                         {
                             List<float[]> singleCompression = singleAnalysis.GetRange(0, i + 1);
                             if (discardedFirst)
@@ -257,6 +258,10 @@ public class CamTest: MonoBehaviour
                                 analyzeSingleCompression(singleCompression);
                                 yield return null;
                             }
+							else
+							{
+								discardedFirst = true;
+							}
                             singleAnalysis.RemoveRange(0, i + 1);
                         }
 
@@ -264,12 +269,13 @@ public class CamTest: MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
         }
     }
 
     void analyzeSingleCompression(List<float[]> compression)
-    {;
+    {
+
     }
 
 	void TakeSnapshot()
