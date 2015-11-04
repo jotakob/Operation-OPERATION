@@ -1,22 +1,17 @@
 fileFormatVersion: 2
 guid: 97ef3a11adb479b4998c53200c349f65
-timeCreated: 1444813266
+timeCreated: 1446638698
 licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: Bed
-    100002: //RootNode
-    100004: Box001
-    400000: Bed
-    400002: //RootNode
-    400004: Box001
-    2300000: Bed
-    2300002: Box001
-    3300000: Bed
-    3300002: Box001
-    4300000: Bed
-    4300002: Box001
+    100000: //RootNode
+    100002: Box001
+    400000: //RootNode
+    400002: Box001
+    2300000: Box001
+    3300000: Box001
+    4300000: Box001
   materials:
     importMaterials: 1
     materialName: 0
@@ -45,7 +40,7 @@ ModelImporter:
     addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
@@ -58,7 +53,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0

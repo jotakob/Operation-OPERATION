@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
+using System.Threading;
 
 public class CamTest: MonoBehaviour
 {
 
-    //private Thread thread = new Thread (new ThreadStart(analyzeCompression));
-
-    public GameObject Henry;
+	//private Thread thread = new Thread (new ThreadStart(analyzeCompression));
 
 	public Text showPressure;
-
-	public bool doAnalysis;
 
 	public WebCamTexture webcamTexture;
 	public WebCamDevice[] devices;
@@ -21,8 +19,8 @@ public class CamTest: MonoBehaviour
 	public Color[] redLevels;
 	public Color[] greenLevels;
 
-	private int[] redPixelsIndex;
-    private int[] greenPixelsIndex;
+	public int[] redPixelsIndex;
+	public int[] greenPixelsIndex;
 
 	private const int redHeight = 236;
 	private const int redBottom = 165;
@@ -33,12 +31,14 @@ public class CamTest: MonoBehaviour
 	private const int redLeft = 94;
 	private const int greenLeft = 186;
 
-	private List<float[]> pressureValues = new List<float[]>();
-    private List<float> maximums = new List<float>();
-    private List<float> minimums = new List<float>();
-    private List<float> bpms = new List<float>();
+	private float lastPressure = 0.0f;
+	private bool goingUp = false;
+	private float compStartTime;
+	private List<float> singleCompression = new List<float>();
 
-    private Texture2D tooSoft;
+    private float nextAnalysisTime = 0.0f;
+
+	private Texture2D tooSoft;
 
 	private string _SavePath = "D:/WebcamSnaps/";
 
@@ -55,7 +55,7 @@ public class CamTest: MonoBehaviour
 
     void Start()
     {
-		doAnalysis = false;
+
         devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture();
 		webcamTexture.deviceName = devices [0].name;
@@ -67,100 +67,139 @@ public class CamTest: MonoBehaviour
 		handsDown = false;
 		handsUp = true;
 
-        StartCoroutine(analyzeCompression());
     }
 
-	void Update()
-    {
+	void Update() {
+
+		if (handsUp || pressure <= 2) {
+			playerFeedback.text = "Press";
+		}
+		else if (handsDown && pressure >= 49) {
+			playerFeedback.text = "Release";
+		}
+
+		if (pressure > 2) {
+			CPRHands.SetActive(true);
+			handController.enabled = false ;
+			if (!handsDown) {
+				StartCoroutine(animeCPRdownwards());
+			}
+		}
+		else {
+			if (handsDown) {
+				StartCoroutine(animeCPRupwards());
+			}
+		}
+
 		if (Input.GetButtonDown("Jump"))
 		{
 			Debug.Log("oi");
 			TakeSnapshot();
 		}
 
-        if (webcamTexture.didUpdateThisFrame)
+        /*if (webcamTexture.didUpdateThisFrame)
         {
-            redLevels = webcamTexture.GetPixels(redLeft, redBottom, 1, redHeight);
-            greenLevels = webcamTexture.GetPixels(greenLeft, greenBottom, 1, greenHeight);
-            redPixelsIndex = new int[10];
-            greenPixelsIndex = new int[10];
-            int b = 0;
-
-            for (int i = 0; i < redLevels.Length; i++)
-            {
-                if (redLevels[i].r > 0.75f * (redLevels[i].g + redLevels[i].b))
-                {
-                    redPixelsIndex[b] = i;
-                    b++;
-                    if (b >= 10) { break; }
-                }
-            }
-
-
-            b = 0;
-
-            for (int i = 0; i < greenLevels.Length; i++)
-            {
-                if (greenLevels[i].g > 0.75f * (greenLevels[i].r + greenLevels[i].b))
-                {
-                    greenPixelsIndex[b] = i;
-                    b++;
-                    if (b >= 10) { break; }
-                }
-            }
-
-            float redLevel = redPixelsIndex[4];
-            float greenLevel = greenPixelsIndex[4];
-
-
-            pressure = 0.0f;
-
-            if (greenLevel > 0)
-            {
-                pressure = (1 - greenLevel / greenLevels.Length) * 14 + 37;
-            }
-            else if (redLevel > 0)
-            {
-                pressure = (1 - redLevel / redLevels.Length) * 37.0f;
-            }
-            else
-            {
-                pressure = 0;
-            }
-
-            if (pressure <= 51)
-            {
-                pressureValues.Add(new float[] { pressure, Time.time });
-                showPressure.text = "" + Mathf.Round(pressure);
-            }
-
-            if (handsUp || pressure <= 2)
-            {
-                playerFeedback.text = "Press";
-            }
-            else if (handsDown && pressure >= 49)
-            {
-                playerFeedback.text = "Release";
-            }
-
-            if (pressure > 2)
-            {
-                CPRHands.SetActive(true);
-                handController.enabled = false;
-                if (!handsDown)
-                {
-                    StartCoroutine(animeCPRdownwards());
-                }
-            }
-            else
-            {
-                if (handsDown)
-                {
-                    StartCoroutine(animeCPRupwards());
-                }
-            }
+            Debug.Log(Time.time - lastCamFrameTime);
+            lastCamFrameTime = Time.time;
         }
-    }
+        else
+        {
+            Debug.Log("no :/");
+        }*/
+
+		redLevels = webcamTexture.GetPixels (redLeft, redBottom, 1, redHeight);
+		greenLevels = webcamTexture.GetPixels(greenLeft, greenBottom, 1, greenHeight);
+		redPixelsIndex = new int[10];
+		greenPixelsIndex = new int[10];
+		int b = 0;
+
+		for (int i = 0; i < redLevels.Length; i++) {
+			if (redLevels[i].r > 0.75f * (redLevels[i].g + redLevels[i].b)) {
+				redPixelsIndex[b] = i;
+				b++;
+				if (b >=10) {break;}
+			}
+		}
+
+
+		b = 0;
+
+		for (int i = 0; i < greenLevels.Length; i++) {
+			if (greenLevels[i].g > 0.75f * (greenLevels[i].r + greenLevels[i].b)) {
+				greenPixelsIndex[b] = i;
+				b++;
+				if (b >=10) {break;}
+			}
+		}
+		
+		float redLevel = redPixelsIndex [4];
+		float greenLevel = greenPixelsIndex [4];
+
+
+		pressure = 0.0f;
+
+		if (greenLevel > 0) {
+			pressure = (1 - greenLevel / greenLevels.Length) * 14 + 37;
+		} 
+		else if (redLevel > 0) {
+			pressure = (1 - redLevel / redLevels.Length) * 37.0f;
+		} 
+		else {
+			pressure = 0;
+		}
+
+		if (pressure < 51)
+        {
+			/*if (lastPressure > pressure && goingUp){
+				//start new compression and analyze previous one
+				float[] compression = singleCompression.ToArray();
+                string output = "";
+                foreach (float value in compression)
+                {
+                    output += Mathf.Round(value) + ", ";
+                }
+                //Debug.Log(output);
+
+				float min = 50;
+				float max = 0;
+				foreach (float i in compression)
+				{
+					if (i < min)
+						min = i;
+					if (i > max)
+						max = i;
+				}
+				float range = max - min;
+				if (range > 10)
+				{
+					singleCompression = new List<float>();
+					compStartTime = Time.realtimeSinceStartup;
+					goingUp = false;
+					//Debug.Log("Last Compression: " + compression.Length);
+				}
+			}
+			else if (lastPressure < pressure && !goingUp){
+				goingUp = true;
+			}*/
+			singleCompression.Add(pressure);
+			//Debug.Log("pressure: " + pressure);
+			showPressure.text = "" + Mathf.Round(pressure);
+		}
+
+		if (Time.time > nextAnalysisTime) 
+		{
+			//Debug.Log("starting thread...");
+			//thread.Start();
+			nextAnalysisTime = Time.time + 1f;
+		}
+
+		lastPressure = pressure;
+	}
+
+	void analyzeCompression()
+	{
+		Debug.Log ("analyzing compression...");
+	}
 
 	IEnumerator animeCPRdownwards()
 	{
@@ -187,144 +226,6 @@ public class CamTest: MonoBehaviour
 			handController.enabled = true;
 		}
 	}
-
-    IEnumerator analyzeCompression()
-    {
-        bool firstAnalysis = true;
-        int analysisCounter = -3;
-
-        while (true)
-        {
-            
-            if (doAnalysis == true)
-            {
-                if (firstAnalysis)
-                {
-                    pressureValues = new List<float[]>();
-					firstAnalysis = false;
-                }
-                else
-                {
-                    Debug.Log("analyzing compression...");
-                    yield return null;
-
-                    List<float[]> singleAnalysis = pressureValues;
-                    pressureValues = new List<float[]>();
-                    float sum = 0f;
-                    int count = 0;
-                    for (count = 0; count < singleAnalysis.Count; count++)
-                    {
-                        sum += singleAnalysis[count][0];
-                    }
-                    float avg = sum / (count + 1f);
-                    yield return null;
-
-                    bool discardedFirst = false;
-                    for (int i = 1; i < singleAnalysis.Count; i++)
-                    {
-                        if ((singleAnalysis[i][0] > avg) && (singleAnalysis[i-1][0] <= avg))
-                        {
-                            List<float[]> singleCompression = singleAnalysis.GetRange(0, i + 1);
-                            if (discardedFirst)
-                            {
-                                string output = "";
-                                foreach (float[] item in singleCompression)
-                                {
-                                    output += "[" + item[0] + ": " + item[1] + "],";
-                                }
-                                output += " -> " + singleCompression.Count;
-                                Debug.Log(output);
-                                yield return null;
-                                analyzeSingleCompression(singleCompression);
-                                yield return null;
-                            }
-							else
-							{
-								discardedFirst = true;
-							}
-                            singleAnalysis.RemoveRange(0, i + 1);
-                        }
-
-                    }
-                }
-
-	            analysisCounter++;
-	            if (analysisCounter >= 3)
-	            {
-	                float avgMin = 0;
-	                foreach (float value in minimums)
-	                {
-	                    avgMin += value;
-	                }
-	                avgMin = avgMin / minimums.Count;
-
-	                float avgMax = 0;
-	                foreach (float value in maximums)
-	                {
-	                    avgMax += value;
-	                }
-	                avgMax = avgMax / maximums.Count;
-
-	                float avgBPM = 0;
-	                foreach (float value in bpms)
-	                {
-	                    avgBPM += value;
-	                }
-	                avgBPM = avgBPM / bpms.Count;
-	                yield return null;
-
-	                string audioFile = "";
-	                if (avgBPM < 95)
-	                {
-	                    audioFile = "Faster1";
-	                }
-	                else if (avgBPM >120)
-	                {
-	                    audioFile = "Slower2";
-	                }
-	                else if (avgMax < 40)
-	                {
-	                    audioFile = "Pressure1";
-	                }
-	                else if (avgMin > 10)
-	                {
-	                    audioFile = "FullyRelease";
-	                }
-
-	                if (audioFile != "")
-	                {
-	                    AudioClip temp = Resources.Load("SoldierLines/" + audioFile) as AudioClip;
-	                    Henry.GetComponent<AudioSource>().clip = temp;
-	                    Henry.GetComponent<AudioSource>().Play();
-	                }
-
-	                analysisCounter = 0;
-	            }
-	            yield return new WaitForSeconds(3f);
-			}
-        }
-    }
-
-    void analyzeSingleCompression(List<float[]> compression)
-    {
-        float bpm = 60 / (compression[compression.Count-1][1] - compression[0][1]);
-        float max = 0;
-        float min = 52;
-        foreach (float[] item in compression)
-        {
-            if (item[0] > max)
-            {
-                item[0] = max;
-            }
-            if (item[0] < min)
-            {
-                item[0] = min;
-            }
-        }
-        minimums.Add(min);
-        maximums.Add(max);
-        bpms.Add(bpm);
-    }
 
 	void TakeSnapshot()
 	{
