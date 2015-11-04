@@ -55,7 +55,6 @@ public class CamTest: MonoBehaviour
 
         devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture();
-        //webcamTexture.Stop();
 		webcamTexture.deviceName = devices [0].name;
         webcamTexture.requestedWidth = 480;
         webcamTexture.requestedHeight = 640;
