@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 using System.Collections.Generic;
 
 public class ActivateAED : MonoBehaviour {
-	public AudioClip beep;
+	public GameObject webcam;
 
 	public bool placedOne;
 	public bool placedTwo;
@@ -22,17 +22,10 @@ public class ActivateAED : MonoBehaviour {
 	void Start()
 	{
 		AEDLines = new Dictionary<int, AudioClip> ();
-		StartCoroutine (LoadAEDLines());
-	}
-
-	IEnumerator LoadAEDLines()
-	{
 		for (int i = 1; i < 25; i++) {
 			AudioClip tmp = Resources.Load("AEDLines/Line" + i) as AudioClip;
 			AEDLines.Add(i, tmp);
 		}
-
-		yield return null;
 	}
 
     void Awake()
@@ -146,9 +139,14 @@ public class ActivateAED : MonoBehaviour {
                     break;
 
 				case 10:
-                case 11:
+				case 11:
+					playSound(state);
+					state++;
+					break;
+
 				case 12:
                     playSound(state);
+					webcam.GetComponent<CamTest>().doAnalysis = true;
                     state++;
                     break;
 
