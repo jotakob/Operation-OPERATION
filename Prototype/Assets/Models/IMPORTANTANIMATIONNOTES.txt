@@ -1,0 +1,8 @@
+0-50: Greeting
+50-120: Explanation Moves [use for here is the patient etc]
+120-200: Looking around
+200-300: Pointing and asking about hands
+300-350: Idle pointing
+350-400: If player does not show hands
+400-650: There is the table with shit
+650-000: Nothing yet
