@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ActivateAED : MonoBehaviour {
 	public AudioClip beep;
+	public GameObject webcam;
 
 	public bool placedOne;
 	public bool placedTwo;
@@ -139,9 +140,14 @@ public class ActivateAED : MonoBehaviour {
                     break;
 
 				case 10:
-                case 11:
+				case 11:
+					playSound(state);
+					state++;
+					break;
+
 				case 12:
                     playSound(state);
+					webcam.GetComponent<CamTest>().doAnalysis = true;
                     state++;
                     break;
 

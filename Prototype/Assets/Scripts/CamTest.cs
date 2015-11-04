@@ -12,7 +12,7 @@ public class CamTest: MonoBehaviour
 
 	public Text showPressure;
 
-    public bool doAnalysis = false;
+	public bool doAnalysis;
 
 	public WebCamTexture webcamTexture;
 	public WebCamDevice[] devices;
@@ -55,7 +55,7 @@ public class CamTest: MonoBehaviour
 
     void Start()
     {
-
+		doAnalysis = false;
         devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture();
 		webcamTexture.deviceName = devices [0].name;
@@ -146,7 +146,6 @@ public class CamTest: MonoBehaviour
             if (pressure > 2)
             {
                 CPRHands.SetActive(true);
-                doAnalysis = true;
                 handController.enabled = false;
                 if (!handsDown)
                 {
@@ -197,7 +196,7 @@ public class CamTest: MonoBehaviour
         while (true)
         {
             
-            if (doAnalysis)
+            if (doAnalysis == true)
             {
                 if (firstAnalysis)
                 {
@@ -248,67 +247,67 @@ public class CamTest: MonoBehaviour
 
                     }
                 }
-            }
 
-            analysisCounter++;
-            if (analysisCounter >= 3)
-            {
-                float avgMin = 0;
-                foreach (float value in minimums)
-                {
-                    avgMin += value;
-                }
-                avgMin = avgMin / minimums.Count;
+	            analysisCounter++;
+	            if (analysisCounter >= 3)
+	            {
+	                float avgMin = 0;
+	                foreach (float value in minimums)
+	                {
+	                    avgMin += value;
+	                }
+	                avgMin = avgMin / minimums.Count;
 
-                float avgMax = 0;
-                foreach (float value in maximums)
-                {
-                    avgMax += value;
-                }
-                avgMax = avgMax / maximums.Count;
+	                float avgMax = 0;
+	                foreach (float value in maximums)
+	                {
+	                    avgMax += value;
+	                }
+	                avgMax = avgMax / maximums.Count;
 
-                float avgBPM = 0;
-                foreach (float value in bpms)
-                {
-                    avgBPM += value;
-                }
-                avgBPM = avgBPM / bpms.Count;
-                yield return null;
+	                float avgBPM = 0;
+	                foreach (float value in bpms)
+	                {
+	                    avgBPM += value;
+	                }
+	                avgBPM = avgBPM / bpms.Count;
+	                yield return null;
 
-                string audioFile = "";
-                if (avgBPM < 95)
-                {
-                    audioFile = "Faster1";
-                }
-                else if (avgBPM >120)
-                {
-                    audioFile = "Slower2";
-                }
-                else if (avgMax < 40)
-                {
-                    audioFile = "Pressure1";
-                }
-                else if (avgMin > 10)
-                {
-                    audioFile = "FullyRelease";
-                }
+	                string audioFile = "";
+	                if (avgBPM < 95)
+	                {
+	                    audioFile = "Faster1";
+	                }
+	                else if (avgBPM >120)
+	                {
+	                    audioFile = "Slower2";
+	                }
+	                else if (avgMax < 40)
+	                {
+	                    audioFile = "Pressure1";
+	                }
+	                else if (avgMin > 10)
+	                {
+	                    audioFile = "FullyRelease";
+	                }
 
-                if (audioFile != "")
-                {
-                    AudioClip temp = Resources.Load("SoldierLines/" + audioFile) as AudioClip;
-                    Henry.GetComponent<AudioSource>().clip = temp;
-                    Henry.GetComponent<AudioSource>().Play();
-                }
+	                if (audioFile != "")
+	                {
+	                    AudioClip temp = Resources.Load("SoldierLines/" + audioFile) as AudioClip;
+	                    Henry.GetComponent<AudioSource>().clip = temp;
+	                    Henry.GetComponent<AudioSource>().Play();
+	                }
 
-                analysisCounter = 0;
-            }
-            yield return new WaitForSeconds(3f);
+	                analysisCounter = 0;
+	            }
+	            yield return new WaitForSeconds(3f);
+			}
         }
     }
 
     void analyzeSingleCompression(List<float[]> compression)
     {
-        float bpm = 60 / (compression[compression.Count][1] - compression[0][1]);
+        float bpm = 60 / (compression[compression.Count-1][1] - compression[0][1]);
         float max = 0;
         float min = 52;
         foreach (float[] item in compression)
