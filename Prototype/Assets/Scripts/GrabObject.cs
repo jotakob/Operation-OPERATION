@@ -49,7 +49,7 @@ public class GrabObject : MonoBehaviour {
 			gameObject.isStatic = true;
 			otherPad.GetComponent<GrabObject>().setDownOneOccupied = true;
 			AEDTrigger.GetComponent<ActivateAED>().placedOne = true;
-			otherPad.GetComponent<GrabObject>().enabled = true;
+			//otherPad.GetComponent<GrabObject>().enabled = true;
 		}
 
 		Vector3 setDownPosition2 = setDown2.transform.position;
@@ -62,7 +62,7 @@ public class GrabObject : MonoBehaviour {
 			gameObject.isStatic = true;
 			otherPad.GetComponent<GrabObject>().setDownTwoOccupied = true;
 			AEDTrigger.GetComponent<ActivateAED>().placedTwo = true;
-			otherPad.GetComponent<GrabObject>().enabled = true;
+			//otherPad.GetComponent<GrabObject>().enabled = true;
 		}
 		
 	}
