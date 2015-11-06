@@ -78,7 +78,7 @@ public class CamTest: MonoBehaviour
 			TakeSnapshot();
 		}
 
-        if (webcamTexture.didUpdateThisFrame)
+        //if (webcamTexture.didUpdateThisFrame)
         {
             redLevels = webcamTexture.GetPixels(redLeft, redBottom, 1, redHeight);
             greenLevels = webcamTexture.GetPixels(greenLeft, greenBottom, 1, greenHeight);
@@ -191,7 +191,6 @@ public class CamTest: MonoBehaviour
     IEnumerator analyzeCompression()
     {
         bool firstAnalysis = true;
-        int analysisCounter = -3;
 
         while (true)
         {
@@ -248,60 +247,63 @@ public class CamTest: MonoBehaviour
                     }
                 }
 
-	            analysisCounter++;
-	            if (analysisCounter >= 3)
+                /*List<float>[] averages = new List<float>[] { minimums, maximums, bpms };
+
+                foreach (List<float>  list in averages)
+                {
+                    if (list.Count > 12)
+                    {
+                        list.RemoveRange(0, list.Count - 12);
+                    }
+                }*/
+
+	            float avgMin = 0;
+	            foreach (float value in minimums)
 	            {
-	                float avgMin = 0;
-	                foreach (float value in minimums)
-	                {
-	                    avgMin += value;
-	                }
-	                avgMin = avgMin / minimums.Count;
+	                avgMin += value;
+	            }
+	            avgMin = avgMin / minimums.Count;
 
-	                float avgMax = 0;
-	                foreach (float value in maximums)
-	                {
-	                    avgMax += value;
-	                }
-	                avgMax = avgMax / maximums.Count;
+	            float avgMax = 0;
+	            foreach (float value in maximums)
+	            {
+	                avgMax += value;
+	            }
+	            avgMax = avgMax / maximums.Count;
 
-	                float avgBPM = 0;
-	                foreach (float value in bpms)
-	                {
-	                    avgBPM += value;
-	                }
-	                avgBPM = avgBPM / bpms.Count;
-	                yield return null;
+	            float avgBPM = 0;
+	            foreach (float value in bpms)
+	            {
+	                avgBPM += value;
+	            }
+	            avgBPM = avgBPM / bpms.Count;
+	            yield return null;
 
-	                string audioFile = "";
-	                if (avgBPM < 95)
-	                {
-	                    audioFile = "Faster1";
-	                }
-	                else if (avgBPM >120)
-	                {
-	                    audioFile = "Slower2";
-	                }
-	                else if (avgMax < 40)
-	                {
-	                    audioFile = "Pressure1";
-	                }
-	                else if (avgMin > 10)
-	                {
-	                    audioFile = "FullyRelease";
-	                }
+	            string audioFile = "";if (avgBPM >120)
+	            {
+	                audioFile = "Slower2";
+	            }
+	            else if (avgMax < 40)
+	            {
+	                audioFile = "Pressure1";
+	            }
+	            else if (avgMin > 10)
+	            {
+	                audioFile = "FullyRelease";
+                }
+                else if(avgBPM < 95)
+                {
+                    audioFile = "Faster1";
+                }
 
-	                if (audioFile != "")
-	                {
-	                    AudioClip temp = Resources.Load("SoldierLines/" + audioFile) as AudioClip;
-	                    Henry.GetComponent<AudioSource>().clip = temp;
-	                    Henry.GetComponent<AudioSource>().Play();
-	                }
-
-	                analysisCounter = 0;
-				}
+                if (audioFile != "")
+	            {
+	                AudioClip temp = Resources.Load("SoldierLines/" + audioFile) as AudioClip;
+	                Henry.GetComponent<AudioSource>().clip = temp;
+	                Henry.GetComponent<AudioSource>().Play();
+	            }
 			}
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(6f);
         }
     }
 

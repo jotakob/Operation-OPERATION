@@ -30,7 +30,7 @@ public class ActivateAED : MonoBehaviour {
 
     void Awake()
     {
-        //giveShock = (Random.value > 0.5);
+        giveShock = (Random.value > 0.5);
 
     }
 
@@ -152,7 +152,8 @@ public class ActivateAED : MonoBehaviour {
 
                 case 13:
                     playSound(state);
-					state = 6;
+                    webcam.GetComponent<CamTest>().doAnalysis = false;
+                    state = 6;
                     break;
 
                 default:

@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class StartingAnimationClip : MonoBehaviour
 {
 	Image imageComponent;
-	public Sprite startScreen;
-	public GameObject HeadRig;
+    ScreenFadeInOut headRigComponent;
+	public GameObject headRig;
+    public Sprite[] scene0;
 	public Sprite[] scene1;
 	public Sprite[] scene2;
 	public Sprite[] scene3;
+    public Sprite[] scene4;
 
 	public GameObject blackBox;
 	public GameObject activateScene;
@@ -21,17 +23,26 @@ public class StartingAnimationClip : MonoBehaviour
 	void Start () {
 		started = false;
 		imageComponent = gameObject.GetComponent<Image> ();
+        headRigComponent = headRig.GetComponent<ScreenFadeInOut>();
+        imageComponent.sprite = scene0[0];
 		StartCoroutine (swappingScreens ());
 	}
 
 	IEnumerator swappingScreens()
 	{
 		while (!started) {
-			imageComponent.sprite = startScreen;
-			yield return null;
-		}
+            for (int i = 0; i < scene0.Length; i++)
+            {
+                imageComponent.sprite = scene0[i];
+                if (started)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
 
-		for (int i = 1; i < scene1.Length; i++) {
+		for (int i = 0; i < scene1.Length; i++) {
 			imageComponent.sprite = scene1[i];
 			yield return new WaitForSeconds(0.2f);
 		}
@@ -46,19 +57,25 @@ public class StartingAnimationClip : MonoBehaviour
 			yield return new WaitForSeconds(0.2f);
 		}
 
-		for (float i = 0; i < 29; i++) {
-			yield return new WaitForEndOfFrame();
-		}
+        for (int i = 0; i < scene4.Length; i++)
+        {
+            Debug.Log("Frame: " + i);
+            imageComponent.sprite = scene4[i];
+            yield return new WaitForSeconds(0.2f);
+        }
 
-		HeadRig.GetComponent<OVRScreenFade> ().enabled = true;
+        headRigComponent.FadeToBlack();
+
+        yield return new WaitForSeconds(2);
 
 		Destroy(blackBox.gameObject);
 		activateScene.SetActive (true);
 		layer.gameObject.SetActive (false);
 
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds (2);
 
-		yield return null;
+        headRigComponent.FadeToClear();
+
 	}
 
 	void OnTriggerEnter()

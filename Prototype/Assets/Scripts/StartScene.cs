@@ -8,6 +8,7 @@ public class StartScene : MonoBehaviour
 	public HandController handController;
 	private GameObject nurseSoldier;
 	private AudioSource audioSourceSoldier;
+	public Animator Henry;
 	 
 	private bool handValid;
 
@@ -21,11 +22,12 @@ public class StartScene : MonoBehaviour
 
 	IEnumerator InitilizeScene()
 	{
-		yield return new WaitForSeconds (7);
+		yield return new WaitForSeconds (3);
 
 		AudioClip temp = Resources.Load ("SoldierLines/Line1") as AudioClip;
 		audioSourceSoldier.clip = temp;
 		audioSourceSoldier.Play ();
+		Henry.Play("Line1");
 
 		Debug.Log ("Playing Line 1");
 
@@ -35,6 +37,7 @@ public class StartScene : MonoBehaviour
 			temp = Resources.Load("SoldierLines/Line1-1") as AudioClip;
 			audioSourceSoldier.clip = temp;
 			audioSourceSoldier.Play();
+			Henry.Play("Line2");
 			Debug.Log ("Playing Line 1-1");
 			yield return new WaitForSeconds(temp.length + 4.5f);
 		}
@@ -42,6 +45,7 @@ public class StartScene : MonoBehaviour
 		temp = Resources.Load("SoldierLines/Line2") as AudioClip;
 		audioSourceSoldier.clip = temp;
 		audioSourceSoldier.Play();
+		Henry.Play("Line4");
 		Debug.Log ("Playing Line 2");
 
 		yield return new WaitForSeconds (temp.length + 5.0f);
@@ -49,6 +53,7 @@ public class StartScene : MonoBehaviour
 		temp = Resources.Load ("SoldierLines/Line3") as AudioClip;
 		audioSourceSoldier.clip = temp;
 		audioSourceSoldier.Play ();
+		Henry.Play("Line3");
 		Debug.Log ("Playing Line 3");
 
 		yield return new WaitForSeconds (temp.length + 3.0f);
@@ -56,6 +61,7 @@ public class StartScene : MonoBehaviour
 		temp = Resources.Load ("SoldierLines/Line4") as AudioClip;
 		audioSourceSoldier.clip = temp;
 		audioSourceSoldier.Play ();
+		Henry.Play("Line5");
 		Debug.Log ("Playing Line 4");
 
 		yield return new WaitForSeconds (temp.length);
