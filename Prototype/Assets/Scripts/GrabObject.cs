@@ -34,7 +34,7 @@ public class GrabObject : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) 
 	{
-		if (IsHand(other) && gameObject.GetComponent<GrabObject>().enabled) {
+		if (IsHand(other) && gameObject.GetComponent<GrabObject>().enabled && !gameObject.isStatic) {
 			isTouching = true;
 //			Debug.Log ("Hand Touch");
 		}
@@ -72,7 +72,7 @@ public class GrabObject : MonoBehaviour {
 		Frame frame = handCtrl.GetFrame();
 		Hand hand = frame.Hands.Frontmost;
 
-		if (hand.IsValid && isTouching && !gameObject.isStatic) 
+		if (hand.IsValid && isTouching) 
 		{
 			otherPad.GetComponent<GrabObject>().enabled = false;
 			Vector3 position = handCtrl.transform.TransformPoint(hand.PalmPosition.ToUnityScaled());
