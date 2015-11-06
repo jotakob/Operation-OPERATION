@@ -279,7 +279,8 @@ public class CamTest: MonoBehaviour
 	            avgBPM = avgBPM / bpms.Count;
 	            yield return null;
 
-	            string audioFile = "";if (avgBPM >120)
+	            string audioFile = "";
+                if (avgBPM >120)
 	            {
 	                audioFile = "Slower2";
 	            }

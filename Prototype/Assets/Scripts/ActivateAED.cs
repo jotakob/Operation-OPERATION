@@ -74,6 +74,7 @@ public class ActivateAED : MonoBehaviour {
                     break;
 
                 case 6:
+                    webcam.GetComponent<CamTest>().doAnalysis = false;
                     if (placedOne && placedTwo)
                     {
                         playSound(state);
@@ -152,7 +153,6 @@ public class ActivateAED : MonoBehaviour {
 
                 case 13:
                     playSound(state);
-                    webcam.GetComponent<CamTest>().doAnalysis = false;
                     state = 6;
                     break;
 
