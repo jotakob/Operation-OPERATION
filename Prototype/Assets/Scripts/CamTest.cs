@@ -247,7 +247,7 @@ public class CamTest: MonoBehaviour
                     }
                 }
 
-                /*List<float>[] averages = new List<float>[] { minimums, maximums, bpms };
+                List<float>[] averages = new List<float>[] { minimums, maximums, bpms };
 
                 foreach (List<float>  list in averages)
                 {
@@ -255,7 +255,7 @@ public class CamTest: MonoBehaviour
                     {
                         list.RemoveRange(0, list.Count - 12);
                     }
-                }*/
+                }
 
 	            float avgMin = 0;
 	            foreach (float value in minimums)
@@ -280,7 +280,11 @@ public class CamTest: MonoBehaviour
 	            yield return null;
 
 	            string audioFile = "";
-                if (avgBPM >120)
+                if (avgBPM < 95)
+                {
+                    audioFile = "Faster2";
+                }
+                else if(avgBPM >120)
 	            {
 	                audioFile = "Slower2";
 	            }
@@ -291,10 +295,6 @@ public class CamTest: MonoBehaviour
 	            else if (avgMin > 10)
 	            {
 	                audioFile = "FullyRelease";
-                }
-                else if(avgBPM < 95)
-                {
-                    audioFile = "Faster1";
                 }
 
                 if (audioFile != "")
