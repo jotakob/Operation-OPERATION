@@ -24,6 +24,7 @@ public class ActivateAED : MonoBehaviour {
 		AEDLines = new Dictionary<int, AudioClip> ();
 		for (int i = 1; i < 25; i++) {
 			AudioClip tmp = Resources.Load("AEDLines/Line" + i) as AudioClip;
+            
 			AEDLines.Add(i, tmp);
 		}
 	}
