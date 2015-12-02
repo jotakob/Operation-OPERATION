@@ -56,6 +56,7 @@ public class CamTest: MonoBehaviour
 		doAnalysis = false;
         if (!useBalanceBoard)
         {
+            Debug.Log("Using Webcam");
             devices = WebCamTexture.devices;
             webcamTexture = new WebCamTexture();
             webcamTexture.deviceName = devices[0].name;
@@ -66,7 +67,8 @@ public class CamTest: MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<WiiBoardUDPClient>().Start();
+            Debug.Log("Using Wii Balanceboard");
+            gameObject.GetComponent<WiiBoardUDPClient>().startup();
         }
 
 		handsDown = false;
@@ -82,8 +84,7 @@ public class CamTest: MonoBehaviour
 			Debug.Log("oi");
 			TakeSnapshot();
 		}
-
-        //if (webcamTexture.didUpdateThisFrame)
+        
         if (!useBalanceBoard)
         {
             redLevels = webcamTexture.GetPixels(redLeft, redBottom, 1, redHeight);
@@ -142,6 +143,7 @@ public class CamTest: MonoBehaviour
         }
         else
         {
+            pressure = 0.0f;
             float weight = gameObject.GetComponent<WiiBoardUDPClient>().getWeight();
             pressure = weight;
             pressureValues.Add(new float[] { pressure, Time.time });

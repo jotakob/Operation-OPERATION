@@ -21,6 +21,10 @@ public class WiiBoardUDPClient : MonoBehaviour {
     private float[] boardSize = new float[2] { 43.5f, 23.5f };
 
     public void Start() {
+    }
+
+    public void startup()
+    {
         Application.runInBackground = true;
 
         //Startup UDP server
@@ -28,7 +32,7 @@ public class WiiBoardUDPClient : MonoBehaviour {
         serverUDP.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         serverUDP.StartInfo.CreateNoWindow = hideServerWindow;
         serverUDP.StartInfo.UseShellExecute = false;
-        serverUDP.StartInfo.FileName = Application.dataPath + "\\WiiBoard\\WiiBoardUDPServer.exe"; 
+        serverUDP.StartInfo.FileName = Application.dataPath + "\\WiiBoard\\WiiBoardUDPServer.exe";
         serverUDP.EnableRaisingEvents = true;
         serverUDP.Start();
 
@@ -39,6 +43,7 @@ public class WiiBoardUDPClient : MonoBehaviour {
 
         // Calibrates the board
         calibrate();
+
     }
 
     private void ReceiveData() {

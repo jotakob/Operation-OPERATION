@@ -59,7 +59,6 @@ public class StartingAnimationClip : MonoBehaviour
 
         for (int i = 0; i < scene4.Length; i++)
         {
-            Debug.Log("Frame: " + i);
             imageComponent.sprite = scene4[i];
             yield return new WaitForSeconds(0.2f);
         }
