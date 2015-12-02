@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 public class CamTest: MonoBehaviour
 {
-
-    //private Thread thread = new Thread (new ThreadStart(analyzeCompression));
-
     public GameObject Henry;
 
 	public Text showPressure;
 
 	public bool doAnalysis;
+    public bool useBalanceBoard = false;
 
 	public WebCamTexture webcamTexture;
 	public WebCamDevice[] devices;
@@ -56,13 +54,20 @@ public class CamTest: MonoBehaviour
     void Start()
     {
 		doAnalysis = false;
-        devices = WebCamTexture.devices;
-        webcamTexture = new WebCamTexture();
-		webcamTexture.deviceName = devices [0].name;
-        webcamTexture.requestedWidth = 480;
-        webcamTexture.requestedHeight = 640;
-        webcamTexture.requestedFPS = 90;
-        webcamTexture.Play();
+        if (!useBalanceBoard)
+        {
+            devices = WebCamTexture.devices;
+            webcamTexture = new WebCamTexture();
+            webcamTexture.deviceName = devices[0].name;
+            webcamTexture.requestedWidth = 480;
+            webcamTexture.requestedHeight = 640;
+            webcamTexture.requestedFPS = 90;
+            webcamTexture.Play();
+        }
+        else
+        {
+            gameObject.GetComponent<WiiBoardUDPClient>().Start();
+        }
 
 		handsDown = false;
 		handsUp = true;
@@ -79,6 +84,7 @@ public class CamTest: MonoBehaviour
 		}
 
         //if (webcamTexture.didUpdateThisFrame)
+        if (!useBalanceBoard)
         {
             redLevels = webcamTexture.GetPixels(redLeft, redBottom, 1, redHeight);
             greenLevels = webcamTexture.GetPixels(greenLeft, greenBottom, 1, greenHeight);
@@ -133,31 +139,29 @@ public class CamTest: MonoBehaviour
                 pressureValues.Add(new float[] { pressure, Time.time });
                 showPressure.text = "" + Mathf.Round(pressure);
             }
+        }
+        else
+        {
+            float weight = gameObject.GetComponent<WiiBoardUDPClient>().getWeight();
+            pressure = weight;
+            pressureValues.Add(new float[] { pressure, Time.time });
+            showPressure.text = "" + Mathf.Round(pressure);
+        }
 
-            if (handsUp || pressure <= 2)
+        if (pressure > 5)
+        {
+            CPRHands.SetActive(true);
+            handController.enabled = false;
+            if (!handsDown)
             {
-                playerFeedback.text = "Press";
+                StartCoroutine(animeCPRdownwards());
             }
-            else if (handsDown && pressure >= 49)
+        }
+        else
+        {
+            if (handsDown)
             {
-                playerFeedback.text = "Release";
-            }
-
-            if (pressure > 5)
-            {
-                CPRHands.SetActive(true);
-                handController.enabled = false;
-                if (!handsDown)
-                {
-                    StartCoroutine(animeCPRdownwards());
-                }
-            }
-            else
-            {
-                if (handsDown)
-                {
-                    StartCoroutine(animeCPRupwards());
-                }
+                StartCoroutine(animeCPRupwards());
             }
         }
     }
